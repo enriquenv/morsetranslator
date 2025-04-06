@@ -1,6 +1,5 @@
   const form = document.querySelector("form");
-  const listItem = document.getElementById("resultItem");
-  const errors = document.getElementById("error");
+  const translationResult = document.getElementById("translationResult");
 
   const morse = {
     "A": ".-",
@@ -31,41 +30,47 @@
  }
   
   form.addEventListener("submit", (event) => {
-      listItem.innerHTML = "";
-      errors.innerHTML = "";
+      translationResult.textContent = "";
       event.preventDefault();
   
       const formData = new FormData(form);
       let inputValue = formData.get("searchTerm").toUpperCase();
 
-      secondInputValue = inputValue.split(" ");
-        console.log(secondInputValue)
+    
+    function translateToMorse(inputValue) {
+    secondInputValue = inputValue.split(" ");
+    console.log(secondInputValue)
+      let resultText = "";
       for (i = 0; i < secondInputValue.length; i++){
+        let translation = "";
         console.log(secondInputValue[i]);
         for (x = 0; x < secondInputValue[i].length; x++){
             console.log(secondInputValue[i][x]);
+            let currentLetter = secondInputValue[i][x];
+            if (morse[currentLetter]) {
+                translation += morse[currentLetter] + " ";
+            }
           }
+        console.log(translation);
+        if (translation) {
+            resultText += `${translation} `;
+        }
       }
-  
-   /*    console.log(secondInputValue) */
-      /* if (inputValue > 100 || inputValue < 1) {
-          errors.innerHTML = "<p>Please try again with a valid query. Make sure to search between 1 and 100 breeds.</p>";
-          return;
-      } */
-  
-      /* fetch(`https://catfact.ninja/breeds?limit=${inputValue}`).then(response => response.json()).then(response => {
-  
-  
-          for (i = 0; i < response.data.length; i++) {
-  
-              if (response.data[i].country.startsWith("developed")) {
-                  listItem.innerHTML += `<h3>${response.data[i].breed}</h3><p>${response.data[i].country.charAt(0).toUpperCase() + response.data[i].country.slice(1)}</p>`;
-              } else if (response.data[i].country) {
-                  listItem.innerHTML += `<h3>${response.data[i].breed}</h3><p>From ${response.data[i].country}</p>`;
-              } else {
-                  listItem.innerHTML += `<h3>${response.data[i].breed}</h3><p>From somewhere 🤷‍♂️</p>`;
-              }
-          }
-      }); */
-  
+      if (resultText) {
+        translationResult.textContent = resultText;
+    }
+    }
+
+    function translateToLetters(inputValue){
+        console.log("this is morse and will be translated to letters")
+    }
+
+    
+
+    if (inputValue.startsWith('.') || inputValue.startsWith('-')){
+        translateToLetters(inputValue);
+    } else {
+        translateToMorse(inputValue);
+    }
+
   })
