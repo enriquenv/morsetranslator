@@ -30,7 +30,7 @@
  }
   
   form.addEventListener("submit", (event) => {
-      translationResult.textContent = "";
+      translationResult.innerHTML = "";
       event.preventDefault();
   
       const formData = new FormData(form);
@@ -53,17 +53,45 @@
           }
         console.log(translation);
         if (translation) {
-            resultText += `${translation} `;
+            resultText += translation + "&nbsp;&nbsp;";
         }
       }
-      if (resultText) {
-        translationResult.textContent = resultText;
-    }
+      translationResult.innerHTML = resultText;
     }
 
     function translateToLetters(inputValue){
-        console.log("this is morse and will be translated to letters")
-    }
+        const reverseMorse = {};
+        for (let letter in morse) {
+        reverseMorse[morse[letter]] = letter;
+        }
+        //console.log(reverseMorse)
+
+        secondInputValue = inputValue.split("   ");
+        console.log(secondInputValue);
+        let resultText = "";
+        
+        for (i = 0; i < secondInputValue.length; i++) {
+            let translation = "";
+            
+            console.log(secondInputValue[i]);
+            let morseChars = secondInputValue[i].split(" ");
+            console.log(morseChars)
+            
+            for (x = 0; x < morseChars.length; x++) {
+                console.log(morseChars[x]);
+                if (reverseMorse[morseChars[x]]) {
+                    translation += reverseMorse[morseChars[x]];
+                }
+            }
+            
+            console.log(translation);
+            if (translation) {
+                resultText += translation + " ";
+            }
+        }
+        
+        translationResult.innerHTML = resultText;
+}
 
     
 
